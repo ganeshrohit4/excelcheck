@@ -7,6 +7,7 @@
 </head>
 <body>
     <h1>Excel Operations</h1>
+    <!-- Upload Form -->
     <form method="post" enctype="multipart/form-data">
         <label for="input_excel1_path">Input Excel 1:</label><br>
         <input type="file" id="input_excel1_path" name="input_excel1_path"><br><br>
@@ -16,14 +17,31 @@
         
         <button type="submit">Submit</button>
     </form>
-    {% if message %}
-    <p>{{ message }}</p>
-    {% endif %}
-    {% if output_excel_unique %}
-    <p><a href="/download/{{ output_excel_unique }}">Download Unique Excel</a></p>
-    {% endif %}
-    {% if output_excel_comparison %}
-    <p><a href="/download/{{ output_excel_comparison }}">Download Comparison Excel</a></p>
-    {% endif %}
+    <!-- Display Success Message -->
+    <p id="message" style="display: none;"></p>
+    <!-- Download Links (hidden by default) -->
+    <p id="download_links" style="display: none;">
+        <a id="unique_link" href="#">Download Unique Excel</a><br>
+        <a id="comparison_link" href="#">Download Comparison Excel</a>
+    </p>
+
+    <script>
+        // Check for query parameters to display success message
+        const urlParams = new URLSearchParams(window.location.search);
+        const message = urlParams.get('message');
+        if (message) {
+            document.getElementById('message').innerText = message;
+            document.getElementById('message').style.display = 'block';
+        }
+
+        // Check for output Excel files to display download links
+        const outputExcelUnique = urlParams.get('output_excel_unique');
+        const outputExcelComparison = urlParams.get('output_excel_comparison');
+        if (outputExcelUnique && outputExcelComparison) {
+            document.getElementById('unique_link').href = '/download/' + outputExcelUnique;
+            document.getElementById('comparison_link').href = '/download/' + outputExcelComparison;
+            document.getElementById('download_links').style.display = 'block';
+        }
+    </script>
 </body>
 </html>
