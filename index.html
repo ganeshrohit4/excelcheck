@@ -7,7 +7,7 @@
 </head>
 <body>
     <h1>Excel Operations</h1>
-    <form method="post" enctype="multipart/form-data" id="uploadForm">
+    <form method="post" enctype="multipart/form-data">
         <label for="input_excel1_path">Input Excel 1:</label><br>
         <input type="file" id="input_excel1_path" name="input_excel1_path"><br><br>
         
@@ -16,12 +16,18 @@
         
         <button type="submit">Submit</button>
     </form>
-    <div id="message"></div>
-    <div id="downloadLinks"></div>
 
+    <!-- Display message -->
+    <p id="message"></p>
+
+    <!-- Download links -->
+    <p><a id="unique_link" style="display: none;">Download Unique Excel</a></p>
+    <p><a id="comparison_link" style="display: none;">Download Comparison Excel</a></p>
+
+    <!-- JavaScript to handle form submission and display download links -->
     <script>
         // Function to handle form submission
-        document.getElementById('uploadForm').addEventListener('submit', function(event) {
+        document.querySelector('form').addEventListener('submit', function(event) {
             event.preventDefault(); // Prevent default form submission
 
             // Get form data
@@ -35,14 +41,12 @@
             .then(response => response.text())
             .then(data => {
                 // Display message from server
-                document.getElementById('message').innerHTML = data;
+                document.getElementById('message').textContent = data;
 
                 // Display download links if available
                 if (data.includes('Excel files processed successfully!')) {
-                    document.getElementById('downloadLinks').innerHTML = `
-                        <p><a href="/download/output_unique.xlsx">Download Unique Excel</a></p>
-                        <p><a href="/download/output_comparison.xlsx">Download Comparison Excel</a></p>
-                    `;
+                    document.getElementById('unique_link').style.display = 'block';
+                    document.getElementById('comparison_link').style.display = 'block';
                 }
             })
             .catch(error => console.error('Error:', error));
