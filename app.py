@@ -18,15 +18,16 @@ def index():
         input_excel1.save(input_excel1.filename)
         input_excel2.save(input_excel2.filename)
         
-        # Extract unique rows and compare ID columns
+        # Process Excel files
         excel_operations.extract_unique_rows(input_excel1.filename, output_excel_unique_path)
         excel_operations.compare_id_columns(input_excel1.filename, input_excel2.filename, output_excel_comparison_path)
         
-        return "Excel files processed successfully!"
+        # Provide download links in response
+        return render_template('download.html', output_excel_unique=output_excel_unique_path, output_excel_comparison=output_excel_comparison_path)
 
     return render_template('index.html')
 
-@app.route('/download/<filename>')
+@app.route('/download/<path:filename>')
 def download_file(filename):
     return send_file(filename, as_attachment=True)
 
