@@ -16,41 +16,5 @@
         
         <button type="submit">Submit</button>
     </form>
-
-    <!-- Display message -->
-    <p id="message"></p>
-
-    <!-- Download links -->
-    <p><a id="unique_link" style="display: none;">Download Unique Excel</a></p>
-    <p><a id="comparison_link" style="display: none;">Download Comparison Excel</a></p>
-
-    <!-- JavaScript to handle form submission and display download links -->
-    <script>
-        // Function to handle form submission
-        document.querySelector('form').addEventListener('submit', function(event) {
-            event.preventDefault(); // Prevent default form submission
-
-            // Get form data
-            var formData = new FormData(this);
-
-            // Send form data via fetch API
-            fetch('/', {
-                method: 'POST',
-                body: formData
-            })
-            .then(response => response.text())
-            .then(data => {
-                // Display message from server
-                document.getElementById('message').textContent = data;
-
-                // Display download links if available
-                if (data.includes('Excel files processed successfully!')) {
-                    document.getElementById('unique_link').style.display = 'block';
-                    document.getElementById('comparison_link').style.display = 'block';
-                }
-            })
-            .catch(error => console.error('Error:', error));
-        });
-    </script>
 </body>
 </html>
